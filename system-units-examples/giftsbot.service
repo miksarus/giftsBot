@@ -1,0 +1,23 @@
+[Unit]
+Description=Gifts bot daemon
+After=network.target
+After=nginx.service
+After=postgresql.service
+Wants=gunicorn.service
+
+[Service]
+User=django
+Group=www-data
+PIDFile=/home/django/giftsBot/service.pid
+Environment=DJANGO_SETTINGS_MODULE=giftsBot.prod_settings
+OOMScoreAdjust=-100
+WorkingDirectory=/home/django/giftsBot/sources
+#Restart=always
+ExecStart=/home/django/giftsBot/venv/bin/python \
+          manage.py \
+          bot \
+          --settings=giftsBot.prod_settings
+
+
+[Install]
+WantedBy=multi-user.target

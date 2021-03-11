@@ -1,4 +1,4 @@
 # giftsBot
 
 Required packages:
-sudo apt install libpq-dev
+sudo apt install libpq-dev gunicorn

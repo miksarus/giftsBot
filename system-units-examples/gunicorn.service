@@ -1,0 +1,18 @@
+[Unit]
+Description=GiftsBot gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=django
+Group=www-data
+WorkingDirectory=/home/django/giftsBot/sources
+ExecStart=/home/django/giftsBot/venv/bin/gunicorn \
+          --access-logfile - \
+          --workers 5 \
+          --bind unix:/run/gb_gunicorn.sock \
+          --env DJANGO_SETTINGS_MODULE=giftsBot.prod_settings \
+          giftsBot.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
