@@ -14,6 +14,7 @@ from telegram.utils.request import Request
 
 from bot.models import Message
 from bot.models import Profile
+from bot.predictions import get_prediction
 
 
 def log_errors(f):
@@ -41,7 +42,7 @@ def do_echo(updater: Update, context: CallbackContext):
     m = Message(profile=p, text=text)
     m.save()
 
-    reply_text = "Вера, я знаю, что это ты. Я записал, всё что ты мне пишешь в сверхнадёжную базу! Уха-ха-ха!!!"
+    reply_text = "Пока я умею только две вещи:\n/takechance - и тебе может повезти\n/count - счётчик сколько сообщений вы отправили"
     updater.message.reply_text(text=reply_text)
 
 
@@ -58,6 +59,20 @@ def do_count(updater: Update, context: CallbackContext):
 
     updater.message.reply_text(
         text=f"От вас было отправлено {count} сообщений", )
+
+
+@log_errors
+def do_takechance(updater: Update, context: CallbackContext):
+    chat_id = updater.message.chat_id
+    
+    p, is_new = Profile.objects.get_or_create(
+        external_id=chat_id,
+        defaults={
+            'name': updater.message.from_user.username,
+        })
+
+    reply_text = get_prediction()
+    updater.message.reply_text(text=reply_text)
 
 
 class Command(BaseCommand):
@@ -81,6 +96,9 @@ class Command(BaseCommand):
             bot=bot,
             use_context=True,
         )
+
+        command1_handler = CommandHandler('takechance', do_takechance)
+        updater.dispatcher.add_handler(command1_handler)
 
         command_handler = CommandHandler('count', do_count)
         updater.dispatcher.add_handler(command_handler)
