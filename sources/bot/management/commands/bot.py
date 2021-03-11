@@ -32,12 +32,13 @@ def log_errors(f):
 @log_errors
 def do_echo(updater: Update, context: CallbackContext):
     chat_id = updater.message.chat_id
+    name = updater.message.from_user.username
     text = updater.message.text
 
     p, is_new = Profile.objects.get_or_create(
         external_id=chat_id,
         defaults={
-            'name': updater.message.from_user.username,
+            'name': name if name is not None else "Unknown",
         })
     m = Message(profile=p, text=text)
     m.save()
@@ -65,11 +66,12 @@ def do_count(updater: Update, context: CallbackContext):
 @log_errors
 def do_takechance(updater: Update, context: CallbackContext):
     chat_id = updater.message.chat_id
+    name = updater.message.from_user.username
     
     p, is_new = Profile.objects.get_or_create(
         external_id=chat_id,
         defaults={
-            'name': updater.message.from_user.username,
+             'name': name if name is not None else "Unknown",
         })
 
     reply_text = get_prediction()
