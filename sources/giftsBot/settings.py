@@ -75,16 +75,7 @@ WSGI_APPLICATION = 'giftsBot.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'giftsbot_db',
-        'USER' : 'u_gifts',
-        'PASSWORD' : '8McqUT',
-        'HOST' : '127.0.0.1',
-        'PORT' : '5432',
-    }
-}
+DATABASES = {}
 
 
 # Password validation
@@ -126,6 +117,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Настройки Бота
-TOKEN = '1550511627:AAHQAj4qN3It5i0I04AFzAsXPN5TghHiw_0'
-
+TOKEN = ''
 PROXY_URL = 'https://telegg.ru/orig/bot'

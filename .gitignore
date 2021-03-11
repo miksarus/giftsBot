@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# PRODUCTION SETTINGS file
+sources/giftsBot/prod_settings.py
