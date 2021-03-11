@@ -50,10 +50,11 @@ def do_echo(updater: Update, context: CallbackContext):
 def do_count(updater: Update, context: CallbackContext):
     #print(updater)
     chat_id = updater.message.chat_id
+    name = updater.message.from_user.username
     p, is_new = Profile.objects.get_or_create(
         external_id=chat_id,
         defaults={
-            'name': updater.message.from_user.username,
+            'name': name if name is not None else "Unknown",
         })
     count = Message.objects.filter(profile=p).count()
 

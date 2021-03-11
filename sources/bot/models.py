@@ -7,7 +7,7 @@ class Profile(models.Model):
         verbose_name="ID пользователя в соц сети",
         unique=True,
     )
-    name = models.TextField(verbose_name="Имя пользователя")
+    name = models.TextField(verbose_name="Имя пользователя", default='Unknown')
 
     def __str__(self):
         return f"{self.name} (@{self.external_id})"
