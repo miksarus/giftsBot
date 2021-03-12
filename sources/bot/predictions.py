@@ -51,5 +51,5 @@ __preds = [
 ]
 
 def get_prediction():
-    num = randint(0, len(__preds))
+    num = randint(0, len(__preds) - 1)
     return __preds[num]
