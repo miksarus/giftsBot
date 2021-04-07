@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .forms import ProductForm
-from .models import Category, Product
+from .models import Category, Product, Mark
 
 
 @admin.register(Category)
@@ -13,3 +13,7 @@ class CategoryAdmin(admin.ModelAdmin):
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'ozone_id', 'category', 'update_date')
     form = ProductForm
+
+@admin.register(Mark)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')

@@ -6,7 +6,15 @@ def get_sentinel_category():
 
 
 class Category(models.Model):
-    parent = models.ForeignKey('self', related_name='parent_cat', on_delete=models.CASCADE, null=True, blank=True, verbose_name="Родительская категория")
+    parent = models.ForeignKey(
+        "self",
+        related_name='parent_cat',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        verbose_name="Родительская категория"
+    )
     name = models.CharField(max_length=200, verbose_name="Название категории")
 
     def __str__(self):
@@ -15,22 +23,33 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
-        #order_with_respect_to = 'parent'
+        order_with_respect_to = 'parent'
+
+
+class Mark(models.Model):
+    name = models.CharField(max_length=60, verbose_name="Имя метки")
+    
+    class Meta:
+        verbose_name = 'Метка'
+        verbose_name_plural = 'Метки'
+        ordering = ['name']
 
 
 class Product(models.Model):
     category = models.ForeignKey(
-        Category,
+        "products.Category",
         related_name='category',
-        on_delete=models.CASCADE
-        #on_delete=models.SET(get_sentinel_category())
+        on_delete=models.SET_DEFAULT,
+        default=get_sentinel_category
     )
-    ozone_id = models.CharField(max_length=200, verbose_name="Артикул")
+    ozone_id = models.CharField(max_length=200, verbose_name="Артикул OZONE")
     name = models.CharField(max_length=200, verbose_name="Название продукта")
     update_date = models.DateTimeField(
         verbose_name='Время обновления',
-        #auto_now_add=True,
+        auto_now=True
     )
+    price = models.IntegerField(verbose_name='Цена')
+    marks = models.ManyToManyField('products.Mark', related_name='marks', blank=True)
 
     def __str__(self):
         return str(self.name)
