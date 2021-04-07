@@ -11,6 +11,9 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'giftsBot.settings')
+if os.path.exists("giftsBot/prod_settings.py"):
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'giftsBot.prod_settings')
+else:
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'giftsBot.settings')
 
 application = get_wsgi_application()

@@ -6,7 +6,12 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'giftsBot.settings')
+    if os.path.exists("giftsBot/prod_settings.py"):
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'giftsBot.prod_settings')
+        print("Apply production settings module..")
+    else:
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'giftsBot.settings')
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
